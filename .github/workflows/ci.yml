@@ -29,4 +29,5 @@ jobs:
         poetry run task isort
     - name: Test with Pytest
       run: |
+        poetry run task download
         poetry run task test
