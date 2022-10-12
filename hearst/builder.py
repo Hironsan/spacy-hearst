@@ -1,7 +1,7 @@
-from typing import List
+from typing import Any, List
 
 
-def build_np_such_as_np_patterns(n=5) -> List[List[object]]:
+def build_np_such_as_np_patterns(n=5) -> List[Any]:
     """Builds a list of n such as patterns.
     NP0 such as {NP1, NP2,..., (and | or )} NPn
 
@@ -29,7 +29,7 @@ def build_np_such_as_np_patterns(n=5) -> List[List[object]]:
     return patterns
 
 
-def build_such_np_as_np_patterns(n=5) -> List[List[object]]:
+def build_such_np_as_np_patterns(n=5) -> List[Any]:
     """Builds a list of n such as patterns.
     Such NP as {NP,}* {( and | or )} NP
 
@@ -52,6 +52,35 @@ def build_such_np_as_np_patterns(n=5) -> List[List[object]]:
         ] * i
         pattern += [] if i == 0 else [{"LOWER": {"IN": ["and", "or"]}}]
         pattern += [
+            {"POS": {"IN": ["NOUN", "PROPN"]}},
+        ]
+        patterns.append(pattern)
+    return patterns
+
+
+def build_np_or_other_np_patterns(n=5) -> List[Any]:
+    """Builds a list of n such as patterns.
+    NP {, NP}* {,} or other NP
+
+    Args:
+        n (int): Number of NP patterns to include in the such as pattern.
+
+    Returns:
+        list: List of patterns.
+    """
+    patterns = []
+    for i in range(n):
+        pattern = [
+            {"POS": {"IN": ["NOUN", "PROPN"]}},
+        ]
+        pattern += [
+            {"ORTH": ","},  # type: ignore
+            {"POS": {"IN": ["NOUN", "PROPN"]}},
+        ] * i
+        pattern += [
+            {"ORTH": ",", "OP": "?"},  # type: ignore
+            {"LOWER": "or"},  # type: ignore
+            {"LOWER": "other"},  # type: ignore
             {"POS": {"IN": ["NOUN", "PROPN"]}},
         ]
         patterns.append(pattern)
