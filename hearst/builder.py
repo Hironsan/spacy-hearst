@@ -58,12 +58,12 @@ def build_such_np_as_np_patterns(n=5) -> List[Any]:
     return patterns
 
 
-def build_np_or_other_np_patterns(n=5) -> List[Any]:
-    """Builds a list of n such as patterns.
+def build_np_or_and_other_np_patterns(n=5) -> List[Any]:
+    """Builds a list of np or/and other patterns.
     NP {, NP}* {,} or other NP
 
     Args:
-        n (int): Number of NP patterns to include in the such as pattern.
+        n (int): Number of NP patterns to include in the pattern.
 
     Returns:
         list: List of patterns.
@@ -79,7 +79,7 @@ def build_np_or_other_np_patterns(n=5) -> List[Any]:
         ] * i
         pattern += [
             {"ORTH": ",", "OP": "?"},  # type: ignore
-            {"LOWER": "or"},  # type: ignore
+            {"LOWER": {"IN": ["or", "and"]}},
             {"LOWER": "other"},  # type: ignore
             {"POS": {"IN": ["NOUN", "PROPN"]}},
         ]

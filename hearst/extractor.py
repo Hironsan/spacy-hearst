@@ -3,7 +3,7 @@ from typing import List, Tuple
 from spacy.matcher import Matcher
 
 from .builder import (
-    build_np_or_other_np_patterns,
+    build_np_or_and_other_np_patterns,
     build_np_such_as_np_patterns,
     build_such_np_as_np_patterns,
 )
@@ -52,10 +52,10 @@ class SuchNPAsNPExtractor:
         return [(chunk.text, hypernym) for chunk in noun_chunks]
 
 
-class NPOrOtherNPExtractor:
+class NPOrAndOtherNPExtractor:
     def __init__(self, nlp):
         self.nlp = nlp
-        patterns = build_np_or_other_np_patterns()
+        patterns = build_np_or_and_other_np_patterns()
         self.matcher = Matcher(nlp.vocab)
         self.matcher.add("NP or other NP", patterns)
 

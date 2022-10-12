@@ -1,7 +1,7 @@
 import spacy
 
 from hearst.extractor import (
-    NPOrOtherNPExtractor,
+    NPOrAndOtherNPExtractor,
     NPSuchAsNPExtractor,
     SuchNPAsNPExtractor,
 )
@@ -33,8 +33,14 @@ class TestExtractor:
 
     def test_np_or_other_np(self):
         text = "There were bruises, lacerations, or other injuries were not prevalent."
-        extractor = NPOrOtherNPExtractor(self.nlp)
+        extractor = NPOrAndOtherNPExtractor(self.nlp)
         hyponyms = extractor.extract(text)
-        expected = [("gallstones", "causes"), ("alcohol", "causes"), ("drugs", "causes")]
         expected = [("bruises", "injuries"), ("lacerations", "injuries")]
+        assert hyponyms == expected
+
+    def test_np_and_other_np(self):
+        text = "temples, treasures, and other artifacts were looted."
+        extractor = NPOrAndOtherNPExtractor(self.nlp)
+        hyponyms = extractor.extract(text)
+        expected = [("temples", "artifacts"), ("treasures", "artifacts")]
         assert hyponyms == expected
