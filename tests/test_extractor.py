@@ -1,6 +1,7 @@
 import spacy
 
 from hearst.extractor import (
+    NPIncludingNPOrAndNPExtractor,
     NPOrAndOtherNPExtractor,
     NPSuchAsNPExtractor,
     SuchNPAsNPExtractor,
@@ -43,4 +44,15 @@ class TestExtractor:
         extractor = NPOrAndOtherNPExtractor(self.nlp)
         hyponyms = extractor.extract(text)
         expected = [("temples", "artifacts"), ("treasures", "artifacts")]
+        assert hyponyms == expected
+
+    def test_np_including_np_or_and_np(self):
+        text = "common law countries, including Canada, Australia, and England enjoy toast."
+        extractor = NPIncludingNPOrAndNPExtractor(self.nlp)
+        hyponyms = extractor.extract(text)
+        expected = [
+            ("Canada", "common law countries"),
+            ("Australia", "common law countries"),
+            ("England", "common law countries"),
+        ]
         assert hyponyms == expected

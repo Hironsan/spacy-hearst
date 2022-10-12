@@ -85,3 +85,32 @@ def build_np_or_and_other_np_patterns(n=5) -> List[Any]:
         ]
         patterns.append(pattern)
     return patterns
+
+
+def build_np_including_np_or_and_np_patterns(n=5) -> List[Any]:
+    """Builds a list of np including patterns.
+    NP {,} including {NP,}* { or | and } NP
+
+    Args:
+        n (int): Number of NP patterns to include in the pattern.
+
+    Returns:
+        list: List of patterns.
+    """
+    patterns = []
+    for i in range(n):
+        pattern = [
+            {"POS": {"IN": ["NOUN", "PROPN"]}},
+            {"ORTH": ",", "OP": "?"},  # type: ignore
+            {"LOWER": "including"},
+        ]
+        pattern += [
+            {"POS": {"IN": ["NOUN", "PROPN"]}},
+            {"ORTH": ","},  # type: ignore
+        ] * i
+        pattern += [
+            {"LOWER": {"IN": ["or", "and"]}, "OP": "?"},
+            {"POS": {"IN": ["NOUN", "PROPN"]}},
+        ]
+        patterns.append(pattern)
+    return patterns
